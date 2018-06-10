@@ -1,23 +1,18 @@
 class Solution:
     def threeSum(self, nums):
-        nums.sort()
+        #nums.sort()
         size = len(nums)
         results = []
-        for i in range(size-2):
-            sumval = -1*nums[i]
-            l = i+1
-            r = size-1
-            while l<r:
-                if (nums[l]+nums[r]) == sumval:
-                    if [nums[i], nums[l], nums[r]] not in results:
-                        results.append([nums[i], nums[l], nums[r]])
-                    l += 1
-                    r += -1
-                elif nums[l]+nums[r]>sumval:
-                    r += -1
+        for i in range(size-1):
+            hashdict = {}
+            for j in range(i+1, size):
+                if -(nums[i]+nums[j]) in hashdict:
+                    hashdict.pop(-(nums[i]+nums[j]), None)
+                    results.append((nums[i], nums[j], -(nums[i]+nums[j])))
                 else:
-                    l += 1
-        return results
+                    hashdict[nums[j]] = 1
+        results = list(set(results))
+        return [list(x) for x in results]
 sol = Solution()
 inp = list(map(int, input().split(",")))
 print(sol.threeSum(inp))
